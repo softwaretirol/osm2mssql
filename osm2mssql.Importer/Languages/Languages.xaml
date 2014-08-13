@@ -1,0 +1,31 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:system="clr-namespace:System;assembly=mscorlib"
+                    x:Class="osm2mssql.Importer.Languages.c__users_christian_desktop_osm2mssql_osm2mssql_importer_languages_languages_xaml">
+
+    <system:String x:Key="DatabaseConnectionSettings">Database Connection Settings</system:String>
+    <system:String x:Key="Host">Hostname</system:String>
+    <system:String x:Key="Username">Username</system:String>
+    <system:String x:Key="Password">Password</system:String>
+    <system:String x:Key="Database">Database</system:String>
+    <system:String x:Key="TryToConnect">Try to connect</system:String>
+    <system:String x:Key="Import">Import</system:String>
+    <system:String x:Key="StartImport">Start import</system:String>
+    <system:String x:Key="RESTService">REST Service</system:String>
+    <system:String x:Key="Start">Start</system:String>
+    <system:String x:Key="Stop">Stop</system:String>
+    
+    <system:String x:Key="CreateDatabaseTaskDescription">Creates the database structure</system:String>
+    <system:String x:Key="TaskInstallDbExtension">Install database-extensions</system:String>
+    <system:String x:Key="ReadNodeTaskDescription">Read all nodes</system:String>
+    <system:String x:Key="TaskAttributeWriterDescription">Write Tags</system:String> 
+    <system:String x:Key="ReadWayTaskDescription">Read all ways</system:String>
+    <system:String x:Key="CreateSpatialIndicesDescription">Create all database indicies</system:String>
+    <system:String x:Key="CreateLineInDBTaskDescription">Create a geography object foreach way</system:String>
+    <system:String x:Key="ReadRelationTaskDescription">Reading all relations</system:String>
+    <system:String x:Key="CreateRelationInDBTaskDescription">Create the relations in the database</system:String>
+    <system:String x:Key="TaskExecuteSqlCommands">Custom SQL-Commands after importing</system:String>
+    <system:String x:Key="TaskNodeIndicesDescription">Create indices on tNode/tNodeTag</system:String>
+    <system:String x:Key="TaskWayIndicesDescription">Create indices on tWay/tNWayTag</system:String>
+    <system:String x:Key="TaskRelationIndicesDescription">Create indices on tRelation/tRelationTag</system:String>
+</ResourceDictionary>
