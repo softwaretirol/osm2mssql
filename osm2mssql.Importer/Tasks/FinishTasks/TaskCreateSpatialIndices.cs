@@ -18,13 +18,13 @@ namespace osm2mssql.Importer.Tasks.FinishTasks
             Task task1 = null, task2 = null;
             if (is2008Server)
             {
-                task1 = Task.Factory.StartNew(() => ExecuteSqlCmd("CREATE SPATIAL INDEX idx ON tWay(line)"));
-                task2 = Task.Factory.StartNew(() => ExecuteSqlCmd("CREATE SPATIAL INDEX idx ON tNode(location)"));
+                task1 = Task.Factory.StartNew(() => ExecuteSqlCmd("CREATE SPATIAL INDEX idx ON Way(line)"));
+                task2 = Task.Factory.StartNew(() => ExecuteSqlCmd("CREATE SPATIAL INDEX idx ON Node(location)"));
             }
             else
             {
-                task1 = Task.Factory.StartNew(() => ExecuteSqlCmd("CREATE SPATIAL INDEX idx ON tWay(line) USING GEOGRAPHY_AUTO_GRID"));
-                task2 = Task.Factory.StartNew(() => ExecuteSqlCmd("CREATE SPATIAL INDEX idx ON tNode(location) USING GEOGRAPHY_AUTO_GRID"));
+                task1 = Task.Factory.StartNew(() => ExecuteSqlCmd("CREATE SPATIAL INDEX idx ON Way(line) USING GEOGRAPHY_AUTO_GRID"));
+                task2 = Task.Factory.StartNew(() => ExecuteSqlCmd("CREATE SPATIAL INDEX idx ON Node(location) USING GEOGRAPHY_AUTO_GRID"));
             }
 
             Task.WaitAll(new[] { task1, task2 });

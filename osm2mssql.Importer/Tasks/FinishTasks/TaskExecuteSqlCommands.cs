@@ -14,7 +14,7 @@ namespace osm2mssql.Importer.Tasks.FinishTasks
 
         protected override async Task DoTaskWork(string osmFile, AttributeRegistry attributeRegistry)
         {
-            var sql = File.ReadAllText("SQLCommands.sql");
+            var sql = File.ReadAllText("SQL\\SQLCommands.sql");
             sql = sql.Replace("[OSM]", Connection.InitialCatalog);
             ExecuteSqlCmd(sql);
         }

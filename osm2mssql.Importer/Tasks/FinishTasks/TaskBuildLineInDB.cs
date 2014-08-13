@@ -12,10 +12,10 @@ namespace osm2mssql.Importer.Tasks.FinishTasks
 
         protected override async Task DoTaskWork(string osmFile, AttributeRegistry attributeRegistry)
         {
-            ExecuteSqlCmd("INSERT INTO dbo.tWay(Id, line) " +
+            ExecuteSqlCmd("INSERT INTO dbo.Way(Id, line) " +
                           "SELECT wayId, dbo.CreateLineString(Latitude, Longitude, sort) " +
-                          "from tWayCreation INNER JOIN " +
-                          "tNode on tNode.Id = tWayCreation.nodeId group by wayId");
+                          "from WayCreation INNER JOIN " +
+                          "Node on Node.Id = WayCreation.nodeId group by wayId");
         }
     }
 }

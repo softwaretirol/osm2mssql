@@ -27,22 +27,22 @@ namespace osm2mssql.Importer.Tasks.ParallelTask
                                                     (IOsmReader)new PbfOsmReader() :
                                                     (IOsmReader)new XmlOsmReader();
 
-            ExecuteSqlCmd("TRUNCATE TABLE [tRelationCreation]");
-            ExecuteSqlCmd("TRUNCATE TABLE [tRelationTag]");
+            ExecuteSqlCmd("TRUNCATE TABLE [RelationCreation]");
+            ExecuteSqlCmd("TRUNCATE TABLE [RelationTag]");
 
-            var dtRelationCreation = new DataTable { MinimumCapacity = MaxRowCountInMemory };
-            dtRelationCreation.TableName = "tRelationCreation";
-            dtRelationCreation.Columns.Add("relationId", typeof(long));
-            dtRelationCreation.Columns.Add("ref", typeof(long));
-            dtRelationCreation.Columns.Add("type");
-            dtRelationCreation.Columns.Add("role");
-            dtRelationCreation.Columns.Add("sort");
+            var dRelationCreation = new DataTable { MinimumCapacity = MaxRowCountInMemory };
+            dRelationCreation.TableName = "RelationCreation";
+            dRelationCreation.Columns.Add("relationId", typeof(long));
+            dRelationCreation.Columns.Add("ref", typeof(long));
+            dRelationCreation.Columns.Add("type");
+            dRelationCreation.Columns.Add("role");
+            dRelationCreation.Columns.Add("sort");
 
-            var dtRelationTags = new DataTable { MinimumCapacity = MaxRowCountInMemory };
-            dtRelationTags.TableName = "tRelationTag";
-            dtRelationTags.Columns.Add("relationId", typeof(long));
-            dtRelationTags.Columns.Add("Typ");
-            dtRelationTags.Columns.Add("Info");
+            var dRelationTags = new DataTable { MinimumCapacity = MaxRowCountInMemory };
+            dRelationTags.TableName = "RelationTag";
+            dRelationTags.Columns.Add("relationId", typeof(long));
+            dRelationTags.Columns.Add("Typ");
+            dRelationTags.Columns.Add("Info");
 
             var insertingTask = Task.Factory.StartNew(() => StartInserting());
 
@@ -52,16 +52,16 @@ namespace osm2mssql.Importer.Tasks.ParallelTask
                 var sort = 0;
                 foreach (var member in relation.Members)
                 {
-                    dtRelationCreation = AddToCollection(dtRelationCreation, relation.RelationId, member.Ref, member.Type, member.Role, sort);
+                    dRelationCreation = AddToCollection(dRelationCreation, relation.RelationId, member.Ref, member.Type, member.Role, sort);
                     sort += 100000;
                 }
 
                 foreach (var tag in relation.Tags)
-                    dtRelationTags = AddToCollection(dtRelationTags, relation.RelationId, tag.Typ, tag.Value);
+                    dRelationTags = AddToCollection(dRelationTags, relation.RelationId, tag.Typ, tag.Value);
             }
 
-            DataTableCollection.Add(dtRelationCreation);
-            DataTableCollection.Add(dtRelationTags);
+            DataTableCollection.Add(dRelationCreation);
+            DataTableCollection.Add(dRelationTags);
             DataTableCollection.CompleteAdding();
 
             Trace.WriteLine(string.Format("Inserted {0} relations", _countOfInsertedRelations));

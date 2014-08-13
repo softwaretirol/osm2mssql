@@ -9,7 +9,7 @@ namespace osm2mssql.InfoDAL
     public class CityInformation
     {
         /// <summary>
-        /// ID of relation in tRelation
+        /// ID of relation in Relation
         /// </summary>
         public long RelationId { get; set; }
         /// <summary>

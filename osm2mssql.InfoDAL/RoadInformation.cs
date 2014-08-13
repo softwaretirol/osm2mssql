@@ -8,7 +8,7 @@ namespace osm2mssql.InfoDAL
     public class RoadInformation
     {
         /// <summary>
-        /// ID of way in tWay
+        /// ID of way in Way
         /// </summary>
         public long WayId { get; set; }
         /// <summary>

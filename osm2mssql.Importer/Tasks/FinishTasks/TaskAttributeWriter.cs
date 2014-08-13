@@ -24,21 +24,21 @@ namespace osm2mssql.Importer.Tasks.FinishTasks
 
             var memberTypes = attributeRegistry.GetAttributeValues(OsmAttribute.MemberType);
 
-            var tagTypeDataTable = new DataTable("tTagType");
+            var tagTypeDataTable = new DataTable("TagType");
             tagTypeDataTable.Columns.Add("Typ", typeof(int));
             tagTypeDataTable.Columns.Add("Name", typeof(string));
             foreach (var tagType in tagTypes)
                 tagTypeDataTable.Rows.Add(tagType.Key, tagType.Value);
             runningTasks.Add(WriteToDbAsync(tagTypeDataTable.TableName, tagTypeDataTable));
 
-            var memberRoleDataTable = new DataTable("tMemberRole");
+            var memberRoleDataTable = new DataTable("MemberRole");
             memberRoleDataTable.Columns.Add("id", typeof(int));
             memberRoleDataTable.Columns.Add("name", typeof(string));
             foreach (var tagType in memberRoles)
                 memberRoleDataTable.Rows.Add(tagType.Key, tagType.Value);
             runningTasks.Add(WriteToDbAsync(memberRoleDataTable.TableName, memberRoleDataTable));
 
-            var memberTypesDataTable = new DataTable("tMemberType");
+            var memberTypesDataTable = new DataTable("MemberType");
             memberTypesDataTable.Columns.Add("id", typeof(int));
             memberTypesDataTable.Columns.Add("name", typeof(string));
             foreach (var tagType in memberTypes)

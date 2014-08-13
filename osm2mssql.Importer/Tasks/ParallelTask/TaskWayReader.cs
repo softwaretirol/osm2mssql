@@ -26,22 +26,22 @@ namespace osm2mssql.Importer.Tasks.ParallelTask
         protected override Task DoTaskWork(string osmFile, AttributeRegistry attributeRegistry)
         {
             var watch = Stopwatch.StartNew();
-            ExecuteSqlCmd("TRUNCATE TABLE tWayCreation");
-            ExecuteSqlCmd("TRUNCATE TABLE tWayTag");
+            ExecuteSqlCmd("TRUNCATE TABLE WayCreation");
+            ExecuteSqlCmd("TRUNCATE TABLE WayTag");
 
-            var dtWays = new DataTable();
-            dtWays.TableName = "tWayCreation";
-            dtWays.MinimumCapacity = MaxRowCountInMemory;
-            dtWays.Columns.Add("wayId", typeof(long));
-            dtWays.Columns.Add("nodeId", typeof(long));
-            dtWays.Columns.Add("sort");
+            var dWays = new DataTable();
+            dWays.TableName = "WayCreation";
+            dWays.MinimumCapacity = MaxRowCountInMemory;
+            dWays.Columns.Add("wayId", typeof(long));
+            dWays.Columns.Add("nodeId", typeof(long));
+            dWays.Columns.Add("sort");
 
-            var dtWayTags = new DataTable();
-            dtWayTags.TableName = "tWayTag";
-            dtWayTags.MinimumCapacity = MaxRowCountInMemory;
-            dtWayTags.Columns.Add("WayId", typeof(long));
-            dtWayTags.Columns.Add("Typ", typeof(int));
-            dtWayTags.Columns.Add("Info", typeof(string));
+            var dWayTags = new DataTable();
+            dWayTags.TableName = "WayTag";
+            dWayTags.MinimumCapacity = MaxRowCountInMemory;
+            dWayTags.Columns.Add("WayId", typeof(long));
+            dWayTags.Columns.Add("Typ", typeof(int));
+            dWayTags.Columns.Add("Info", typeof(string));
 
             var insertingTask = Task.Factory.StartNew(() => StartInserting());
             var reader = osmFile.EndsWith(".pbf") ?
@@ -59,14 +59,14 @@ namespace osm2mssql.Importer.Tasks.ParallelTask
                 var sort = 0;
 
                 foreach (var node in way.NodeRefs)
-                    dtWays = AddToCollection(dtWays, way.WayId, node, sort++);
+                    dWays = AddToCollection(dWays, way.WayId, node, sort++);
 
                 foreach (var tag in way.Tags)
-                    dtWayTags = AddToCollection(dtWayTags, way.WayId, tag.Typ, tag.Value);
+                    dWayTags = AddToCollection(dWayTags, way.WayId, tag.Typ, tag.Value);
             }
 
-            DataTableCollection.Add(dtWays);
-            DataTableCollection.Add(dtWayTags);
+            DataTableCollection.Add(dWays);
+            DataTableCollection.Add(dWayTags);
             DataTableCollection.CompleteAdding();
 
             Trace.WriteLine(string.Format("Inserted {0} ways", _countOfInsertedWays));

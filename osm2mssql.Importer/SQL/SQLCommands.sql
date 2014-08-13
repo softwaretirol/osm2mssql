@@ -1,23 +1,23 @@
 ﻿
 create schema info;
 GO
-CREATE NONCLUSTERED INDEX idxTagType ON [tTagType] ([Name])
-CREATE NONCLUSTERED INDEX idxtWayTagTyp ON [tWayTag] ([Typ]) INCLUDE ([WayId],[Info])
-CREATE NONCLUSTERED INDEX idxtRelationTagTyp ON [tRelationTag] ([Typ]) INCLUDE ([RelationId],[Info])
-CREATE NONCLUSTERED INDEX idxtNodeTagTyp ON [dbo].[tNodeTag] ([Typ]) INCLUDE ([NodeId],[Info])
+CREATE NONCLUSTERED INDEX idxTagType ON [TagType] ([Name])
+CREATE NONCLUSTERED INDEX idxWayTagTyp ON [WayTag] ([Typ]) INCLUDE ([WayId],[Info])
+CREATE NONCLUSTERED INDEX idxRelationTagTyp ON [RelationTag] ([Typ]) INCLUDE ([RelationId],[Info])
+CREATE NONCLUSTERED INDEX idxNodeTagTyp ON [dbo].[NodeTag] ([Typ]) INCLUDE ([NodeId],[Info])
 GO
 
 ---- INFO ADMINLEVELS CREATION
 --SELECT * INTO info.AdminLevels FROM
 --(
---SELECT       tRelation.id as RelationId, AdminLevel = CAST(tRelationTag.Info as int), Geo, tRelationTag1.Info as Name, tRelationTag2.Info as Place, tRelationTag3.Info as PostalCode
---FROM            tRelation LEFT JOIN
---				tRelationTag ON tRelation.id = tRelationTag.RelationId INNER JOIN
---				tTagType ON tRelationTag.Typ = tTagType.Typ and tRelationTag.Typ = (SELECT TOP(1) Typ FROM tTagType WHERE name like 'admin_level') LEFT JOIN
---				tRelationTag AS tRelationTag1 ON tRelation.Id = tRelationTag1.RelationId and tRelationTag1.Typ =  (SELECT TOP(1) Typ FROM tTagType WHERE name like 'name') LEFT JOIN
---				tRelationTag AS tRelationTag2 ON tRelation.Id = tRelationTag2.RelationId and tRelationTag2.Typ = (SELECT TOP(1) Typ FROM tTagType WHERE name like 'place')LEFT JOIN
---				tRelationTag AS tRelationTag3 ON tRelation.Id = tRelationTag3.RelationId and tRelationTag3.Typ = (SELECT TOP(1) Typ FROM tTagType WHERE name like 'postal_code')
---where tRelation.geo is not null
+--SELECT       Relation.id as RelationId, AdminLevel = CAST(RelationTag.Info as int), Geo, RelationTag1.Info as Name, RelationTag2.Info as Place, RelationTag3.Info as PostalCode
+--FROM            Relation LEFT JOIN
+--				RelationTag ON Relation.id = RelationTag.RelationId INNER JOIN
+--				TagType ON RelationTag.Typ = TagType.Typ and RelationTag.Typ = (SELECT TOP(1) Typ FROM TagType WHERE name like 'admin_level') LEFT JOIN
+--				RelationTag AS RelationTag1 ON Relation.Id = RelationTag1.RelationId and RelationTag1.Typ =  (SELECT TOP(1) Typ FROM TagType WHERE name like 'name') LEFT JOIN
+--				RelationTag AS RelationTag2 ON Relation.Id = RelationTag2.RelationId and RelationTag2.Typ = (SELECT TOP(1) Typ FROM TagType WHERE name like 'place')LEFT JOIN
+--				RelationTag AS RelationTag3 ON Relation.Id = RelationTag3.RelationId and RelationTag3.Typ = (SELECT TOP(1) Typ FROM TagType WHERE name like 'postal_code')
+--where Relation.geo is not null
 --) x
 
 --GO
@@ -37,13 +37,13 @@ GO
 
 ---- INFO ROAD CREATION
 --SELECT * INTO info.Roads FROM
---(SELECT       tWay.Id, tWay.Line as Street,tWayTag.Info as HighWayType, tWayTag1.Info as Name, tWayTag2.Info as MaxSpeed
---FROM            tWay LEFT JOIN
---				tWayTag ON tWayTag.WayId = tWay.Id INNER JOIN
---				tTagType ON tWayTag.Typ = tTagType.Typ and tWayTag.Typ = (SELECT TOP(1) Typ FROM tTagType WHERE name like 'highway') LEFT JOIN
---				tWayTag AS tWayTag1 ON tWay.Id = tWayTag1.WayId and tWayTag1.Typ =  (SELECT TOP(1) Typ FROM tTagType WHERE name like 'name') LEFT JOIN
---				tWayTag AS tWayTag2 ON tWay.Id = tWayTag2.WayId and tWayTag2.Typ = (SELECT TOP(1) Typ FROM tTagType WHERE name like 'maxspeed')
---where tWay.line is not null) x
+--(SELECT       Way.Id, Way.Line as Street,WayTag.Info as HighWayType, WayTag1.Info as Name, WayTag2.Info as MaxSpeed
+--FROM            Way LEFT JOIN
+--				WayTag ON WayTag.WayId = Way.Id INNER JOIN
+--				TagType ON WayTag.Typ = TagType.Typ and WayTag.Typ = (SELECT TOP(1) Typ FROM TagType WHERE name like 'highway') LEFT JOIN
+--				WayTag AS WayTag1 ON Way.Id = WayTag1.WayId and WayTag1.Typ =  (SELECT TOP(1) Typ FROM TagType WHERE name like 'name') LEFT JOIN
+--				WayTag AS WayTag2 ON Way.Id = WayTag2.WayId and WayTag2.Typ = (SELECT TOP(1) Typ FROM TagType WHERE name like 'maxspeed')
+--where Way.line is not null) x
 --GO
 
 --ALTER TABLE info.Roads ADD CONSTRAINT PK_Roads PRIMARY KEY CLUSTERED (Id)
@@ -55,12 +55,12 @@ GO
 
 ---- INFO CITIES CREATION
 --SELECT * INTO info.Cities FROM (
---SELECT      tNode.Id, Latitude, Longitude, tNode.location,  tNodeTag.Info as Name, tNodeTag2.Info as Place
---FROM            tNode LEFT JOIN
---				tNodeTag ON tNode.id = tNodeTag.NodeId INNER JOIN
---				tTagType ON tNodeTag.Typ = tTagType.Typ and tNodeTag.Typ = (SELECT TOP(1) Typ FROM tTagType WHERE name = 'name') JOIN
---				tNodeTag AS tNodeTag2 ON tNode.Id = tNodeTag2.NodeId and tNodeTag2.Typ = (SELECT TOP(1) Typ FROM tTagType WHERE name like 'place') 
---where tNode.location is not null) x
+--SELECT      Node.Id, Latitude, Longitude, Node.location,  NodeTag.Info as Name, NodeTag2.Info as Place
+--FROM            Node LEFT JOIN
+--				NodeTag ON Node.id = NodeTag.NodeId INNER JOIN
+--				TagType ON NodeTag.Typ = TagType.Typ and NodeTag.Typ = (SELECT TOP(1) Typ FROM TagType WHERE name = 'name') JOIN
+--				NodeTag AS NodeTag2 ON Node.Id = NodeTag2.NodeId and NodeTag2.Typ = (SELECT TOP(1) Typ FROM TagType WHERE name like 'place') 
+--where Node.location is not null) x
 
 
 --ALTER TABLE info.Cities ADD CONSTRAINT PK_Cities PRIMARY KEY CLUSTERED (Id)

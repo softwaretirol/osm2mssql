@@ -25,23 +25,23 @@ namespace osm2mssql.Importer.Tasks.ParallelTask
 
         protected override Task DoTaskWork(string osmFile, AttributeRegistry attributeRegistry)
         {
-            ExecuteSqlCmd("TRUNCATE TABLE [tNode]");
-            ExecuteSqlCmd("TRUNCATE TABLE [tNodeTag]");
+            ExecuteSqlCmd("TRUNCATE TABLE [Node]");
+            ExecuteSqlCmd("TRUNCATE TABLE [NodeTag]");
 
             var loadingNodeTable = new DataTable();
-            loadingNodeTable.TableName = "tNode";
+            loadingNodeTable.TableName = "Node";
             loadingNodeTable.MinimumCapacity = MaxRowCountInMemory;
             loadingNodeTable.Columns.Add("NodeId", typeof(long));
             loadingNodeTable.Columns.Add("location", typeof(SqlGeography));
             loadingNodeTable.Columns.Add("Latitude", typeof(double));
             loadingNodeTable.Columns.Add("Longitude", typeof(double));
 
-            var dtNodeTags = new DataTable();
-            dtNodeTags.TableName = "tNodeTag";
-            dtNodeTags.MinimumCapacity = MaxRowCountInMemory;
-            dtNodeTags.Columns.Add("NodeId", typeof(long));
-            dtNodeTags.Columns.Add("Typ");
-            dtNodeTags.Columns.Add("Info");
+            var dNodeTags = new DataTable();
+            dNodeTags.TableName = "NodeTag";
+            dNodeTags.MinimumCapacity = MaxRowCountInMemory;
+            dNodeTags.Columns.Add("NodeId", typeof(long));
+            dNodeTags.Columns.Add("Typ");
+            dNodeTags.Columns.Add("Info");
 
             IOsmReader reader = osmFile.EndsWith(".pbf") ? (IOsmReader)new PbfOsmReader() : (IOsmReader)new XmlOsmReader();
 
@@ -54,12 +54,12 @@ namespace osm2mssql.Importer.Tasks.ParallelTask
                 loadingNodeTable = AddToCollection(loadingNodeTable, node.NodeId, node.ToSqlGeographyPoint(), node.Latitude, node.Longitude);
                 foreach (var tag in node.Tags)
                 {
-                    dtNodeTags = AddToCollection(dtNodeTags, node.NodeId, tag.Typ, tag.Value);
+                    dNodeTags = AddToCollection(dNodeTags, node.NodeId, tag.Typ, tag.Value);
                 }
             }
 
             DataTableCollection.Add(loadingNodeTable);
-            DataTableCollection.Add(dtNodeTags);
+            DataTableCollection.Add(dNodeTags);
             DataTableCollection.CompleteAdding();
 
             Trace.WriteLine(string.Format("Inserted {0} nodes", _countOfInsertedNodes));
