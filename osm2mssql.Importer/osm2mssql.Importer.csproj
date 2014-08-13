@@ -261,7 +261,7 @@
     <Resource Include="Images\warning.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="SQLCommands.sql">
+    <Content Include="SQL\SQLCommands.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <EmbeddedResource Include="SQL\CreateTables.sql" />

@@ -39,7 +39,6 @@ namespace osm2mssql.DbExtensions
     [SqlUserDefinedAggregate(Format.UserDefined, IsInvariantToNulls = true, MaxByteSize = -1)]
     public struct LineStringBuilder : IBinarySerialize
     {
-
         private List<SortedPoint> points;
 
         [SqlMethod(IsDeterministic = true, IsPrecise = true)]
@@ -142,29 +141,12 @@ namespace osm2mssql.DbExtensions
         public void Read(System.IO.BinaryReader r)
         {
             points = new List<SortedPoint>();
-            try
+            while (r.BaseStream.Position < r.BaseStream.Length)
             {
-                while (true)
-                {
-                    if (r.BaseStream.Position == r.BaseStream.Length)
-                        break;
-                    var length = r.BaseStream.Length - r.BaseStream.Position;
-                    if (length < sizeof(Int32))
-                        break;
-                    var sort = r.ReadInt32();
-                    if (length < sizeof(double))
-                        break;
-                    var latitude = r.ReadDouble();
-                    if (length < sizeof(double))
-                        break;
-                    var longitude = r.ReadDouble();
-                    points.Add(new SortedPoint(sort, latitude, longitude));
-
-                }
-            }
-            catch
-            {
-
+                var sort = r.ReadInt32();
+                var latitude = r.ReadDouble();
+                var longitude = r.ReadDouble();
+                points.Add(new SortedPoint(sort, latitude, longitude));
             }
         }
 

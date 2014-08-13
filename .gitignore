@@ -10,3 +10,4 @@
 /osm2mssql.OsmDb2008/obj
 /osm2mssql.InfoDAL/obj
 *.suo
+/osm2mssql.Importer/obj/x64/Debug
