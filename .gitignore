@@ -6,3 +6,7 @@
 /Output/Debug_x64
 /packages
 /Output/Release_x64
+/osm2mssql.OsmDb2012/obj
+/osm2mssql.OsmDb2008/obj
+/osm2mssql.InfoDAL/obj
+*.suo
