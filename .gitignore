@@ -1,0 +1,8 @@
+﻿################################################################################
+# Diese .gitignore-Datei wurde von Microsoft(R) Visual Studio automatisch erstellt.
+################################################################################
+
+/osm2mssql.sln.ide
+/Output/Debug_x64
+/packages
+/Output/Release_x64
