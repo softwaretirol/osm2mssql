@@ -53,15 +53,10 @@
     <Compile Include="..\osm2mssql.Importer\Properties\AssemblyInfo.cs">
       <Link>Properties\AssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="..\osm2mssql.OsmDb2008\Functions.cs">
-      <Link>Functions.cs</Link>
-    </Compile>
-    <Compile Include="..\osm2mssql.OsmDb2008\GeographyUnion.cs">
-      <Link>GeographyUnion.cs</Link>
-    </Compile>
-    <Compile Include="..\osm2mssql.OsmDb2008\LineStringBuilder.cs">
-      <Link>LineStringBuilder.cs</Link>
-    </Compile>
+    <Compile Include="Functions.cs" />
+    <Compile Include="GeographyUnion.cs" />
+    <Compile Include="LineStringBuilder.cs" />
+    <Compile Include="WayCreationPoint.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

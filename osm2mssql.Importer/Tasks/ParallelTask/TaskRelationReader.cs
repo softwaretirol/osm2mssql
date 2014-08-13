@@ -52,8 +52,7 @@ namespace osm2mssql.Importer.Tasks.ParallelTask
                 var sort = 0;
                 foreach (var member in relation.Members)
                 {
-                    dRelationCreation = AddToCollection(dRelationCreation, relation.RelationId, member.Ref, member.Type, member.Role, sort);
-                    sort += 100000;
+                    dRelationCreation = AddToCollection(dRelationCreation, relation.RelationId, member.Ref, member.Type, member.Role, sort++);
                 }
 
                 foreach (var tag in relation.Tags)

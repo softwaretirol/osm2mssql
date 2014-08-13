@@ -77,11 +77,11 @@ namespace osm2mssql.DbExtensions
                 return geography;
 
             var pointCount = geography.STNumPoints();
-            List<SortedPoint> points = new List<SortedPoint>();
+            List<WayCreationPoint> points = new List<WayCreationPoint>();
             for (int i = 1; i < pointCount + 1; i++)
             {
                 SqlGeography point = geography.STPointN(i);
-                points.Add(new SortedPoint(i, point.Long.Value, point.Lat.Value));
+                points.Add(new WayCreationPoint(i, point.Long.Value, point.Lat.Value));
             }
 
             try
@@ -106,7 +106,7 @@ namespace osm2mssql.DbExtensions
             return geography;
         }
 
-        private static SqlGeography TryCreatePolygon(List<SortedPoint> points)
+        private static SqlGeography TryCreatePolygon(List<WayCreationPoint> points)
         {
             var builder = new SqlGeographyBuilder();
             builder.SetSrid(4326);

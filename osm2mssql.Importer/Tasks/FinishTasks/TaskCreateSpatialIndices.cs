@@ -10,25 +10,12 @@ namespace osm2mssql.Importer.Tasks.FinishTasks
         {
         }
 
-        protected async override Task DoTaskWork(string osmFile, AttributeRegistry attributeRegistry)
+        protected override Task DoTaskWork(string osmFile, AttributeRegistry attributeRegistry)
         {
+            var task1 = Task.Factory.StartNew(() => ExecuteSqlCmd("CREATE SPATIAL INDEX idx ON Way(line) USING GEOGRAPHY_AUTO_GRID"));
+            var task2 = Task.Factory.StartNew(() => ExecuteSqlCmd("CREATE SPATIAL INDEX idx ON Node(location) USING GEOGRAPHY_AUTO_GRID"));
 
-            var res = await QuerySqlCmd<string>("SELECT @@VERSION;");
-            bool is2008Server = res.Contains("Server 2008");
-            Task task1 = null, task2 = null;
-            if (is2008Server)
-            {
-                task1 = Task.Factory.StartNew(() => ExecuteSqlCmd("CREATE SPATIAL INDEX idx ON Way(line)"));
-                task2 = Task.Factory.StartNew(() => ExecuteSqlCmd("CREATE SPATIAL INDEX idx ON Node(location)"));
-            }
-            else
-            {
-                task1 = Task.Factory.StartNew(() => ExecuteSqlCmd("CREATE SPATIAL INDEX idx ON Way(line) USING GEOGRAPHY_AUTO_GRID"));
-                task2 = Task.Factory.StartNew(() => ExecuteSqlCmd("CREATE SPATIAL INDEX idx ON Node(location) USING GEOGRAPHY_AUTO_GRID"));
-            }
-
-            Task.WaitAll(new[] { task1, task2 });
-
+            return Task.WhenAll(new[] { task1, task2 });
         }
     }
 }
